@@ -90,11 +90,13 @@ def edit_todo(request):
 
 @api_view(['DELETE'])
 @permission_classes([AllowAny])
-def delete_todo(request, todo_id):
+def delete_todo(request):
+    todo_id=request.GET.get('id')
+    print(todo_id)
     try:
         todo = Todo.objects.get(pk=todo_id)
     except Todo.DoesNotExist:
-        return Response({'error': 'Todo not found'}, status=status.HTTP_404_NOT_FOUND)
+        return Response({'error': 'Todo not found'})
 
     todo.delete()
     return Response('Todo deleted successfully', status=status.HTTP_204_NO_CONTENT)
